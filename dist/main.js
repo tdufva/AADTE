@@ -18,7 +18,7 @@ if (toggle && navigation) {
       toggle.focus();
     }
   });
-  matchMedia('(min-width: 761px)').addEventListener('change', event => {
+  matchMedia('(min-width: 701px)').addEventListener('change', event => {
     if (event.matches) closeMenu();
   });
 }

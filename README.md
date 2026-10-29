@@ -1,10 +1,10 @@
 # AADTE website
 
-An English-language, responsive static website for the Cumulus Art and Design Teacher Education and Pedagogy working group. Custom SVG illustrations, a two-ink risograph palette, paper texture and restrained editorial typography. No application dependencies or data collection. Google Fonts supplies DM Sans and Space Grotesk, with local system fallbacks.
+An English-language, responsive static website for the Cumulus Art and Design Teacher Education and Pedagogy working group. Abstract Bauhaus geometry, a moody risograph palette, paper texture and bold minimal typography. No application dependencies or data collection. Google Fonts supplies Archivo and IBM Plex Mono, with local system fallbacks.
 
 ## Editing and preview
 
-The homepage is `dist/index.html`. Shared appearance and navigation are in `dist/styles.css` and `dist/main.js`. Edit event records in `generate-archive.mjs` and run `node generate-archive.mjs` to update their HTML. Serve `dist` with any static HTTP server. Deploy the contents of `dist`; the site does not require a server runtime or build step.
+The homepage is `dist/index.html`. Shared appearance and navigation are in `dist/bauhaus.css` and `dist/main.js`. Edit event records in `generate-archive.mjs` and run `node generate-archive.mjs` to update their HTML. Serve `dist` with any static HTTP server. Deploy the contents of `dist`; the site does not require a server runtime or build step.
 
 ## Content migration, 29 October 2026
 
@@ -34,3 +34,13 @@ Historical timezone inconsistencies in the Detroit source are avoided by showing
 ## Hosting
 
 Site identity and static output directory are recorded in `.openai/hosting.json`. Publication defaults to owner-private for review. No existing Cumulus website or aadte.org domain is modified.
+
+## Bauhaus / risograph revision
+
+The seven palette colours are #71b084, #9c9b9a, #e8e2df, #c49886, #69607d, #48a363 and #d3c4f5, with a neutral dark printing ink for legibility. Abstract SVGs replace the previous pictorial illustrations and favicon. The three focus blocks and coordinator numbering are removed. Original portrait JPEGs are preserved; cropping, ink tinting and halftone treatment happen in CSS.
+
+Portrait sources:
+
+- Tomi Slotte Dufva: https://www.aalto.fi/en/people/tomi-slotte-dufva — https://acris.aalto.fi/ws/portalfiles/portal/7108415/IMG_3135.jpg
+- Minna Suoniemi: https://www.aalto.fi/en/people/minna-suoniemi — https://acris.aalto.fi/ws/portalfiles/portal/163002426/minna_suoniemi_pieni.jpg
+- Heikki Heinonen: https://research.aalto.fi/fi/persons/heikki-heinonen/ (linked from his Aalto staff profile) — https://research.aalto.fi/files-asset/120247640/Heikki_pieni.jpg/
