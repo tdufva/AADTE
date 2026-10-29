@@ -56,6 +56,7 @@ body:after{opacity:.045}
 .collage-stage{position:relative;isolation:isolate;min-height:650px}
 .hero-collage h1.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;transform:none;mask-image:none;background:none;box-shadow:none;font-size:1px;line-height:1}
 .collage-scene{position:absolute;inset:0 0 auto;height:435px;isolation:isolate;pointer-events:none}
+.collage-growth{position:absolute;inset:0;width:100%;height:100%;z-index:10;pointer-events:none}
 .hero-collage .hero-copy{position:relative;z-index:20;width:100%;padding:455px 0 50px}
 .hero-collage .hero-description{display:inline-block;max-width:750px;padding:8px 20px 10px 0;font-size:clamp(20px,2.1vw,29px);line-height:1.25;letter-spacing:-.025em;color:var(--scene-paper);background:var(--scene-ink)}
 .hero-collage .hero-description strong{font-family:var(--display);font-weight:900}

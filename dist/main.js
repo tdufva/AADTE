@@ -65,6 +65,7 @@ if (collage && collageToggle) {
   let cycle = 0;
   let behaviour = 'scatter';
   const decks = { gentle: [], lively: [] };
+  let interaction = null;
 
   const nextBehaviour = () => {
     // Usually follow energetic movement with a quieter scene, while keeping
@@ -96,6 +97,7 @@ if (collage && collageToggle) {
   };
 
   const freeze = () => {
+    interaction?.sleep();
     if (timer !== null) {
       remaining = Math.max(100, deadline - performance.now());
       clearTimeout(timer);
@@ -253,6 +255,7 @@ if (collage && collageToggle) {
 
   const resume = () => {
     if (paused || reducedMotion.matches || document.hidden || !canAnimate) return;
+    interaction?.wake();
     if (!animations.length) {
       runBehaviour('scatter');
       return;
@@ -266,6 +269,7 @@ if (collage && collageToggle) {
 
   const makeStatic = () => {
     freeze();
+    interaction?.reset();
     animations.forEach(animation => animation.cancel());
     animations = [];
     layers.forEach(layer => {
@@ -294,4 +298,205 @@ if (collage && collageToggle) {
   updateControl();
   if (paused) makeStatic();
   else runBehaviour('scatter');
+  interaction = createCollageInteraction(scene, layers, () => paused || reducedMotion.matches || document.hidden);
+}
+
+function createCollageInteraction(scene, layers, isPaused) {
+  const finePointer = matchMedia('(any-hover: hover) and (any-pointer: fine)');
+  if (!window.CSS?.supports('translate', '1px 1px')) return null;
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  if (!context) return null;
+  canvas.className = 'collage-growth';
+  canvas.setAttribute('aria-hidden', 'true');
+  scene.append(canvas);
+
+  const pigment = ['#cf4c55', '#c3c773', '#b09ac5', '#ebe2cf', '#709476'];
+  const grain = document.createElement('canvas');
+  grain.width = grain.height = 64;
+  const ink = grain.getContext('2d');
+  ink.fillStyle = 'rgba(45,39,50,.32)';
+  for (let dot = 0; dot < 260; dot += 1) {
+    ink.fillRect(Math.random() * 64, Math.random() * 64, Math.random() * 1.4 + .4, Math.random() * 1.4 + .4);
+  }
+  const texture = context.createPattern(grain, 'repeat');
+  const springs = layers.map(layer => ({ ...layer, x: 0, y: 0, tilt: 0, vx: 0, vy: 0, spin: 0 }));
+  const pointer = { inside: false, x: 0, y: 0, anchorX: 0, anchorY: 0, stillSince: 0, seeded: false };
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  let forms = [];
+  let frame = null;
+  let lastFrame = 0;
+  let time = 0;
+  let bounds;
+
+  const release = () => {
+    forms.forEach(form => { if (form.released === null) form.released = time; });
+    pointer.seeded = false;
+    pointer.stillSince = time;
+  };
+
+  const resize = () => {
+    bounds = scene.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(bounds.width * ratio);
+    canvas.height = Math.round(bounds.height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    forms = [];
+    pointer.inside = false;
+    release();
+  };
+
+  const seedForm = () => {
+    const segments = [];
+    const heading = Math.atan2(bounds.height / 2 - pointer.y, bounds.width / 2 - pointer.x) + (Math.random() - .5) * Math.PI;
+    const phase = Math.random() * Math.PI * 2;
+    const unit = clamp(bounds.width / 8, 60, 125);
+    const colour = Math.floor(Math.random() * pigment.length);
+    // Two folded, offset ribbons follow the same flow rather than a radial motif.
+    for (let ribbon = 0; ribbon < 2; ribbon += 1) {
+      let x = pointer.x;
+      let y = pointer.y;
+      for (let step = 0; step < 18; step += 1) {
+        const angle = heading + Math.sin(step * .38 + phase + ribbon * .65) * 1.3 + ribbon * .3;
+        const length = unit * (.13 + Math.random() * .08);
+        const endX = x + Math.cos(angle) * length;
+        const endY = y + Math.sin(angle) * length;
+        const width = unit * (.12 + Math.random() * .13) * (1 - step * .026);
+        segments.push({ x, y, endX, endY, width, angle, colour: (colour + ribbon * 2 + Math.floor(step / 5)) % pigment.length, born: step * 160 + ribbon * 260 });
+        x = endX;
+        y = endY;
+      }
+    }
+    forms.push({ born: time, released: null, segments });
+    forms = forms.slice(-2);
+    pointer.seeded = true;
+    canvas.dataset.growth = 'growing';
+  };
+
+  const drawForms = () => {
+    context.clearRect(0, 0, bounds.width, bounds.height);
+    forms = forms.filter(form => form.released === null || time - form.released < 1300);
+    forms.forEach(form => {
+      const fade = form.released === null ? 1 : Math.pow(1 - (time - form.released) / 1300, 2);
+      form.segments.forEach(segment => {
+        const progress = clamp((time - form.born - segment.born) / 520, 0, 1);
+        if (!progress) return;
+        const growth = 1 - Math.pow(1 - progress, 3);
+        const endX = segment.x + (segment.endX - segment.x) * growth;
+        const endY = segment.y + (segment.endY - segment.y) * growth;
+        const half = segment.width * (.3 + growth * .7) / 2;
+        const nx = -Math.sin(segment.angle) * half;
+        const ny = Math.cos(segment.angle) * half;
+        const path = new Path2D();
+        path.moveTo(segment.x + nx, segment.y + ny);
+        path.lineTo(endX + nx * .8, endY + ny * .8);
+        path.lineTo(endX - nx, endY - ny);
+        path.lineTo(segment.x - nx * .85, segment.y - ny * .85);
+        path.closePath();
+        context.save();
+        context.translate(2, -1.5);
+        context.fillStyle = pigment[(segment.colour + 2) % pigment.length];
+        context.globalAlpha = fade * .28;
+        context.fill(path);
+        context.restore();
+        context.fillStyle = pigment[segment.colour];
+        context.globalAlpha = fade * .88;
+        context.fill(path);
+        context.fillStyle = texture;
+        context.globalAlpha = fade * .65;
+        context.fill(path);
+      });
+    });
+    context.globalAlpha = 1;
+    if (!forms.length) canvas.dataset.growth = 'idle';
+  };
+
+  function tick(now) {
+    frame = null;
+    if (isPaused() || !finePointer.matches) return;
+    const elapsed = lastFrame ? clamp(now - lastFrame, 0, 40) : 16.67;
+    lastFrame = now;
+    time += elapsed;
+    const dt = elapsed / 16.67;
+    const radius = clamp(bounds.width * .28, 140, 340);
+    // Read every layer before writing, keeping layout work outside the spring loop.
+    const boxes = springs.map(spring => spring.element.getBoundingClientRect());
+    let moving = false;
+    springs.forEach((spring, index) => {
+      const box = boxes[index];
+      const dx = box.left + box.width / 2 - bounds.left - spring.x - pointer.x;
+      const dy = box.top + box.height / 2 - bounds.top - spring.y - pointer.y;
+      const distance = Math.max(1, Math.hypot(dx, dy));
+      const influence = pointer.inside ? Math.pow(Math.max(0, 1 - distance / radius), 2) : 0;
+      const force = (spring.letter ? 50 : 65) * influence;
+      const targetX = dx / distance * force;
+      const targetY = dy / distance * force * .72;
+      const targetTilt = clamp(dx / radius, -1, 1) * influence * -15;
+      const damping = Math.pow(spring.letter ? .8 : .84, dt);
+      spring.vx = (spring.vx + (targetX - spring.x) * .085 * dt) * damping;
+      spring.vy = (spring.vy + (targetY - spring.y) * .085 * dt) * damping;
+      spring.spin = (spring.spin + (targetTilt - spring.tilt) * .06 * dt) * damping;
+      spring.x += spring.vx * dt;
+      spring.y += spring.vy * dt;
+      spring.tilt += spring.spin * dt;
+      if (Math.abs(spring.x) + Math.abs(spring.y) + Math.abs(spring.tilt) + Math.abs(spring.vx) + Math.abs(spring.vy) + Math.abs(spring.spin) > .05) moving = true;
+      spring.element.style.translate = `${spring.x.toFixed(2)}px ${spring.y.toFixed(2)}px`;
+      spring.element.style.rotate = `${spring.tilt.toFixed(2)}deg`;
+    });
+    if (pointer.inside && !pointer.seeded && time - pointer.stillSince >= 1800) seedForm();
+    drawForms();
+    if (pointer.inside || moving || forms.length) frame = requestAnimationFrame(tick);
+    else lastFrame = 0;
+  }
+
+  const wake = () => {
+    if (frame === null && !isPaused() && finePointer.matches) frame = requestAnimationFrame(tick);
+  };
+  const sleep = () => {
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+    lastFrame = 0;
+  };
+  const reset = () => {
+    sleep();
+    forms = [];
+    pointer.inside = false;
+    release();
+    springs.forEach(spring => {
+      spring.x = spring.y = spring.tilt = spring.vx = spring.vy = spring.spin = 0;
+      spring.element.style.removeProperty('translate');
+      spring.element.style.removeProperty('rotate');
+    });
+    context.clearRect(0, 0, bounds.width, bounds.height);
+    canvas.dataset.growth = 'idle';
+  };
+  const leave = () => {
+    if (!pointer.inside) return;
+    pointer.inside = false;
+    release();
+    wake();
+  };
+
+  scene.closest('.hero-collage').addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch' || !finePointer.matches || isPaused()) return;
+    bounds = scene.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    if (x < 0 || y < 0 || x > bounds.width || y > bounds.height) { leave(); return; }
+    if (!pointer.inside || Math.hypot(x - pointer.anchorX, y - pointer.anchorY) > 12) {
+      release();
+      pointer.anchorX = x;
+      pointer.anchorY = y;
+    }
+    pointer.x = x;
+    pointer.y = y;
+    pointer.inside = true;
+    wake();
+  }, { passive: true });
+  scene.closest('.hero-collage').addEventListener('pointerleave', leave);
+  window.addEventListener('scroll', leave, { passive: true });
+  finePointer.addEventListener('change', reset);
+  new ResizeObserver(resize).observe(scene);
+  resize();
+  return { wake, sleep, reset };
 }
