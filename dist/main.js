@@ -39,20 +39,23 @@ if (collage && collageToggle) {
       depth: parseInt(style.zIndex, 10) || 1,
     };
   });
-  const behaviours = ['drift', 'orbit', 'exchange', 'flutter', 'scatter', 'tumble', 'fold', 'sweep'];
+  const gentleBehaviours = ['drift', 'sway', 'float'];
+  const livelyBehaviours = ['orbit', 'exchange', 'flutter', 'scatter', 'tumble', 'fold', 'sweep'];
   const random = (min, max) => min + Math.random() * (max - min);
   const pose = (x, y, angle, scale = 1, skew = 0, fold = 0, stretch = 1) =>
     `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) rotate(${angle.toFixed(2)}deg) skewX(${skew.toFixed(2)}deg) rotateY(${fold.toFixed(2)}deg) scale(${scale.toFixed(3)},${(scale * stretch).toFixed(3)})`;
   const timings = {
-    gather: [1500, 1900, 'cubic-bezier(.2,.8,.2,1)'],
-    drift: [3600, 4700, 'cubic-bezier(.4,0,.3,1)'],
-    orbit: [3000, 4100, 'linear'],
-    exchange: [2200, 3100, 'cubic-bezier(.65,0,.25,1)'],
-    flutter: [2300, 3200, 'steps(3,end)'],
-    scatter: [2300, 3200, 'cubic-bezier(.16,1,.3,1)'],
-    tumble: [2800, 3700, 'cubic-bezier(.3,0,.35,1)'],
-    fold: [2400, 3300, 'cubic-bezier(.35,0,.2,1)'],
-    sweep: [2100, 2900, 'cubic-bezier(.7,0,.2,1)'],
+    gather: [2500, 3300, 'cubic-bezier(.2,.8,.2,1)'],
+    drift: [6800, 9600, 'cubic-bezier(.45,0,.55,1)'],
+    sway: [7200, 10000, 'linear'],
+    float: [7500, 10500, 'linear'],
+    orbit: [4500, 6500, 'linear'],
+    exchange: [3100, 4700, 'cubic-bezier(.65,0,.25,1)'],
+    flutter: [3200, 4800, 'steps(3,end)'],
+    scatter: [3200, 4800, 'cubic-bezier(.16,1,.3,1)'],
+    tumble: [4200, 6000, 'cubic-bezier(.3,0,.35,1)'],
+    fold: [4200, 6200, 'cubic-bezier(.35,0,.2,1)'],
+    sweep: [2800, 4400, 'cubic-bezier(.7,0,.2,1)'],
   };
   let paused = reducedMotion.matches || !canAnimate;
   let animations = [];
@@ -61,21 +64,25 @@ if (collage && collageToggle) {
   let remaining = 0;
   let cycle = 0;
   let behaviour = 'scatter';
-  let remainingBehaviours = [];
+  const decks = { gentle: [], lively: [] };
 
   const nextBehaviour = () => {
-    // A shuffled deck gives every motion a turn without immediate repeats.
-    if (!remainingBehaviours.length) {
-      remainingBehaviours = [...behaviours];
-      for (let index = remainingBehaviours.length - 1; index > 0; index -= 1) {
+    // Usually follow energetic movement with a quieter scene, while keeping
+    // both the pace and the individual behaviour unpredictable.
+    const wasGentle = behaviour === 'gather' || gentleBehaviours.includes(behaviour);
+    const pace = Math.random() < (wasGentle ? .4 : .8) ? 'gentle' : 'lively';
+    const deck = decks[pace];
+    if (!deck.length) {
+      deck.push(...(pace === 'gentle' ? gentleBehaviours : livelyBehaviours));
+      for (let index = deck.length - 1; index > 0; index -= 1) {
         const other = Math.floor(random(0, index + 1));
-        [remainingBehaviours[index], remainingBehaviours[other]] = [remainingBehaviours[other], remainingBehaviours[index]];
+        [deck[index], deck[other]] = [deck[other], deck[index]];
       }
     }
-    if (remainingBehaviours.at(-1) === behaviour) {
-      remainingBehaviours.unshift(remainingBehaviours.pop());
+    if (deck.at(-1) === behaviour) {
+      deck.unshift(deck.pop());
     }
-    return remainingBehaviours.pop();
+    return deck.pop();
   };
 
   const updateControl = () => {
@@ -126,12 +133,30 @@ if (collage && collageToggle) {
         { transform: pose(0, 0, angle) },
       ];
     }
+    if (mode === 'sway' || mode === 'float') {
+      const phase = random(-.4, .4) + direction * Math.PI / 5;
+      return [
+        { transform: start, offset: 0, easing: 'cubic-bezier(.35,0,.2,1)' },
+        ...Array.from({ length: 25 }, (_, index) => {
+          const time = index / 24;
+          const damping = Math.exp(-time * (mode === 'sway' ? 1.7 : .85));
+          const wave = phase + time * Math.PI * (mode === 'sway' ? 3 : 2);
+          // Damped pendulum arcs and buoyant bobbing settle naturally.
+          const swing = Math.sin(wave) * damping;
+          const bob = Math.cos(wave) * damping;
+          const transform = mode === 'sway'
+            ? pose(swing * x * .3, (1 - Math.cos(swing)) * y * .18, angle + swing * 12)
+            : pose(swing * x * .24, bob * y * .25, angle + swing * 5, 1 + bob * .012);
+          return { transform, offset: .22 + time * .78 };
+        }),
+      ];
+    }
     if (mode === 'orbit') {
       const phase = random(0, Math.PI * 2);
       const radius = random(.8, 1.35);
       return [{ transform: start }, ...[0, 1, 2, 3, 4, 5].map(step => {
         const turn = phase + direction * step * Math.PI / 2.5;
-        return { transform: pose(Math.cos(turn) * x * radius, Math.sin(turn) * y, angle + Math.sin(turn) * 35, 1 + Math.cos(turn) * .09) };
+        return { transform: pose(Math.cos(turn) * x * radius, Math.sin(turn) * y, angle + Math.sin(turn) * 28, 1 + Math.cos(turn) * .07) };
       })];
     }
     if (mode === 'exchange') {
@@ -182,8 +207,8 @@ if (collage && collageToggle) {
     }
     return [
       { transform: start },
-      { transform: pose(random(-x, x) * .65, random(-y, y) * .65, angle + random(-11, 11), random(.97, 1.035)) },
-      { transform: pose(random(-x, x) * .7, random(-y, y) * .7, angle + random(-12, 12), random(.97, 1.035)) },
+      { transform: pose(random(-x, x) * .3, random(-y, y) * .25, angle + random(-5, 5), random(.99, 1.015)) },
+      { transform: pose(random(-x, x) * .35, random(-y, y) * .3, angle + random(-6, 6), random(.99, 1.015)) },
     ];
   };
 
@@ -199,7 +224,8 @@ if (collage && collageToggle) {
     collage.dataset.behavior = mode;
     collage.dataset.cycle = String(cycle);
     const [shortest, longest, easing] = timings[mode];
-    const duration = cycle === 0 ? 2100 : random(shortest, longest);
+    const gentle = mode === 'gather' || gentleBehaviours.includes(mode);
+    const duration = cycle === 0 ? 3400 : random(shortest, longest);
     let finish = 0;
     layers.forEach((layer, index) => {
       const start = starts[index];
@@ -210,15 +236,17 @@ if (collage && collageToggle) {
       animations.push(layer.element.animate(framesFor(layer, mode, start.transform), {
         ...timing, easing,
       }));
-      const depths = mode === 'gather' || !layer.letter
+      const depths = gentle || !layer.letter
         ? [{ zIndex: start.depth, offset: 0 }, { zIndex: String(layer.depth), offset: .2 }, { zIndex: String(layer.depth), offset: 1 }]
         : [{ zIndex: start.depth, offset: 0 }, { zIndex: '3', offset: .28 }, { zIndex: '15', offset: .58 }, { zIndex: String(index % 2 ? 12 : 6), offset: 1 }];
       animations.push(layer.element.animate(depths.map(frame => ({ ...frame, easing: 'steps(1,end)' })), {
         ...timing, easing: 'linear',
       }));
     });
-    // Blend into the next scene before this one ends, avoiding a static gap.
-    remaining = finish - 100;
+    // Hold the final pose for a breathing space; pause preserves this clock too.
+    const rest = mode === 'gather' ? random(2000, 3400)
+      : gentle ? random(1500, 3000) : random(900, 2000);
+    remaining = finish + rest;
     if (paused || document.hidden) freeze();
     else armClock();
   }
