@@ -3,3 +3,5 @@ node_modules/
 .sites-runtime/
 .sites-checkout/
 *.log
+
+.openai/
