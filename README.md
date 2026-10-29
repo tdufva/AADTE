@@ -59,6 +59,6 @@ The magazine-style fragments carry their own halftone, ink-wear and paper-edge d
 
 Five individual Poppins Black paper letters and three original magazine-style risoprint cutouts share one stacking context. Photographic architecture, folded paper and textile fragments replace the geometric sheets. Source files and exact image-generation prompts are documented in [ASSETS.md](ASSETS.md).
 
-The Web Animations controller changes between gather, drift, orbit, exchange and flutter behaviours. Each cycle chooses fresh trajectories, angles, scales and timings; behaviours do not repeat immediately, and every fourth cycle reassembles AADTE. New movement starts from the current visual pose for continuity. Letters change depth to pass behind and in front of the fragments.
+The Web Animations controller starts moving immediately with a 2.1-second scatter sequence. It then switches between drift, orbit, exchange, stop-motion flutter, scatter, tumble, paper-fold and sweep behaviours, with distinct paths, rotations, scales, deformation and pacing. A shuffled deck gives each behaviour a turn; every fourth cycle briefly reassembles AADTE. Scene changes blend from the current pose before the previous animation ends, avoiding idle gaps. Letters change depth to pass behind and in front of the fragments.
 
 Pause freezes both the active animations and the scene-change clock. Background tabs suspend the scene, and reduced-motion preferences produce a static, readable composition. Coordinators follow the working group text directly, before the gatherings archive.
