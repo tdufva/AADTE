@@ -4,7 +4,7 @@ Website: https://tdufva.github.io/AADTE/
 
 Repository: https://github.com/tdufva/AADTE
 
-An English-language, responsive static website for the Cumulus Art and Design Teacher Education and Pedagogy working group. Abstract Bauhaus geometry, a moody risograph palette, paper texture and bold minimal typography. No application dependencies or data collection. Google Fonts supplies Archivo and IBM Plex Mono, with local system fallbacks.
+An English-language, responsive static website for the Cumulus Art and Design Teacher Education and Pedagogy working group. Abstract Bauhaus geometry, a moody risograph palette, paper texture and bold minimal typography. No application dependencies or data collection. Google Fonts supplies Poppins Black (weight 900) for headings, Archivo for body copy and IBM Plex Mono for small labels, with local system fallbacks.
 
 ## Editing and preview
 
@@ -43,7 +43,7 @@ To update the site, edit the HTML/CSS directly or regenerate the archive with `n
 
 ## Bauhaus / risograph revision
 
-The seven palette colours are #71b084, #9c9b9a, #e8e2df, #c49886, #69607d, #48a363 and #d3c4f5, with a neutral dark printing ink for legibility. Abstract SVGs replace the previous pictorial illustrations and favicon. The three focus blocks and coordinator numbering are removed. Original portrait JPEGs are preserved; cropping, ink tinting and halftone treatment happen in CSS.
+The palette combines warm newsprint, dusty rose, sage, smoky violet and charcoal. The header uses worn crimson red in place of orange, alongside olive, dusty lilac and cream. Abstract SVGs replace the previous pictorial illustrations and favicon. The three focus blocks and coordinator numbering are removed. Original portrait JPEGs are preserved; cropping, ink tinting and halftone treatment happen in CSS.
 
 Portrait sources:
 
@@ -53,8 +53,12 @@ Portrait sources:
 
 ## Stronger risograph finish
 
-A second print pass adds static paper-fibre and ink-density SVG textures, porous headline stencils, coarser rotated halftone screens, roughened illustration edges and small ink-registration offsets. Body copy is untreated. Portrait files remain unmodified; the print finish is applied in CSS. No new pictorial motifs or content were added.
+The magazine-style fragments carry their own halftone, ink-wear and paper-edge detail. The page-wide paper texture stays light, and body copy is untreated. Portrait files remain unmodified; their subtle print finish is applied in CSS.
 
 ## Collage header
 
-The opening section presents five separately animated, letter-shaped AADTE paper cutouts alongside abstract drawings. Letters and drawings share one stacking context: each letter changes position, angle, size and depth, passing behind the drawings and resurfacing in front. The header uses saturated purple, green, orange and lilac with a light paper finish. A single accessible heading supplies the complete name to screen readers. The animation has a keyboard-accessible pause/play control and becomes a static composition when the visitor prefers reduced motion. Coordinators follow the working group description directly, before the gatherings archive.
+Five individual Poppins Black paper letters and three original magazine-style risoprint cutouts share one stacking context. Photographic architecture, folded paper and textile fragments replace the geometric sheets. Source files and exact image-generation prompts are documented in [ASSETS.md](ASSETS.md).
+
+The Web Animations controller changes between gather, drift, orbit, exchange and flutter behaviours. Each cycle chooses fresh trajectories, angles, scales and timings; behaviours do not repeat immediately, and every fourth cycle reassembles AADTE. New movement starts from the current visual pose for continuity. Letters change depth to pass behind and in front of the fragments.
+
+Pause freezes both the active animations and the scene-change clock. Background tabs suspend the scene, and reduced-motion preferences produce a static, readable composition. Coordinators follow the working group text directly, before the gatherings archive.
