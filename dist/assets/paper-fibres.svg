@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">
+  <defs>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="fibre" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".045 .26" numOctaves="3" seed="43" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <path d="M0 0h260v260H0z" filter="url(#paper)" opacity=".7"/>
+  <path d="M0 0h260v260H0z" filter="url(#fibre)" opacity=".35"/>
+  <g stroke="#69607d" stroke-width=".4" opacity=".25">
+    <path d="m18 29 8-2m77-11 6 2m72 35 9-1M34 104l7-3m86-23 6 1m91 10 8-2M73 148l10 2m71-12 6-2m64 35 7 1M16 209l8-1m87 35 9-2m58-23 8 1m47 29 6-2"/>
+  </g>
+</svg>

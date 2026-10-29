@@ -44,3 +44,7 @@ Portrait sources:
 - Tomi Slotte Dufva: https://www.aalto.fi/en/people/tomi-slotte-dufva — https://acris.aalto.fi/ws/portalfiles/portal/7108415/IMG_3135.jpg
 - Minna Suoniemi: https://www.aalto.fi/en/people/minna-suoniemi — https://acris.aalto.fi/ws/portalfiles/portal/163002426/minna_suoniemi_pieni.jpg
 - Heikki Heinonen: https://research.aalto.fi/fi/persons/heikki-heinonen/ (linked from his Aalto staff profile) — https://research.aalto.fi/files-asset/120247640/Heikki_pieni.jpg/
+
+## Stronger risograph finish
+
+A second print pass adds static paper-fibre and ink-density SVG textures, porous headline stencils, coarser rotated halftone screens, roughened illustration edges and small ink-registration offsets. Body copy is untreated. Portrait files remain unmodified; the print finish is applied in CSS. No new pictorial motifs or content were added.

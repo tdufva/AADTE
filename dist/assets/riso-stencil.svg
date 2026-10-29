@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <filter id="stencil" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".46 .62" numOctaves="3" seed="31" stitchTiles="stitch" result="pores"/>
+    <feColorMatrix in="pores" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.45 0 0 0 .15"/>
+  </filter>
+  <path d="M0 0h220v220H0z" fill="white" filter="url(#stencil)"/>
+</svg>
