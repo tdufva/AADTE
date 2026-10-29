@@ -39,53 +39,76 @@ body:after{background-image:url('assets/paper-fibres.svg');background-size:260px
 @media(max-width:700px){html{scroll-padding-top:86px}.wrap{width:calc(100% - 40px)}.header-inner{height:78px;gap:20px}.wordmark{font-size:29px}.brand-symbol{width:26px;height:30px}.menu-toggle{display:block}.desktop-nav{display:none;position:absolute;top:78px;left:0;right:0;background:var(--paper);padding:15px 20px 25px;border-bottom:2px solid var(--ink);flex-direction:column;align-items:stretch;gap:0}.desktop-nav.is-open{display:flex}.desktop-nav>a{padding:13px 0}.desktop-nav .nav-contact{padding:12px 14px;justify-content:space-between;margin-top:12px}.hero{padding-top:26px}.hero .eyebrow{font-size:8px}.hero-main{grid-template-columns:1fr;gap:0;min-height:0}.hero-copy{padding:34px 0 10px}.hero h1{font-size:clamp(48px,12.2vw,81px);line-height:.96;letter-spacing:-.063em;margin-bottom:23px}.hero-description{font-size:14px;max-width:390px}.hero-copy .text-link{margin-top:23px}.hero-art{width:min(100%,430px);justify-self:center;padding-top:28px;padding-bottom:30px}.hero-foot{padding-block:15px;font-size:8px;gap:25px}.hero-foot>span{max-width:120px}.hero-foot .right{max-width:170px;text-align:right}.hero-foot .right span:last-child{display:none}.section{padding-block:60px}.section-marker{margin-bottom:26px;font-size:9px}.section h2{font-size:clamp(34px,8.5vw,47px)}.about-grid{grid-template-columns:1fr;gap:30px}.about-copy{font-size:14px}.section-heading{display:block;margin-bottom:30px}.section-heading>p{margin-top:22px;font-size:12px;max-width:320px}.event{grid-template-columns:55px 1fr 33px;gap:16px;padding-block:27px}.event-date{font-size:8px;line-height:1.7}.event-date strong{font-size:26px;margin-bottom:7px}.event h3{font-size:21px}.event p{font-size:11px}.event-type{display:none}.round-arrow{width:33px;height:36px;font-size:24px}.archive-note{font-size:10px;margin-top:22px}.coordinator-intro{display:block;margin-bottom:32px}.coordinator-intro>p{margin-top:20px;max-width:350px;font-size:12px}.people-grid{grid-template-columns:1fr;gap:43px}.portrait{aspect-ratio:4/4.1;margin-bottom:23px}.person h3{font-size:29px}.person .role{margin-top:10px}.person .affiliation{margin-top:16px}.person-links{margin-top:18px}.portrait-credit{margin-top:28px}.directory{margin-top:30px}.directory summary{font-size:9px}.directory-list{grid-template-columns:1fr 1fr;gap:24px}.resources{padding-top:5px}.resources-grid{grid-template-columns:1fr;gap:31px}.resource-link{font-size:14px;padding-block:20px}.resource-link small{font-size:10px}.contact-section{padding-block:47px}.contact-grid{grid-template-columns:1fr;gap:29px}.contact-section h2{font-size:clamp(42px,13.6vw,60px)}.contact-grid>div{min-width:0}.contact-copy p{font-size:13px}.contact-copy .text-link{font-size:10px;gap:20px}.footer-inner{align-items:start;flex-direction:column;gap:24px}.footer-left{gap:20px}.footer-left>span{max-width:200px;font-size:8px}.footer-links{gap:24px;font-size:8px}.article-main{padding-top:30px;padding-bottom:60px}.back-link{margin-bottom:35px}.article-head h1{font-size:clamp(40px,10.5vw,65px);overflow-wrap:anywhere}.article-strap{font-size:16px}.article-grid{grid-template-columns:1fr;gap:37px;margin-top:32px;padding-top:23px}.article-meta{display:grid;grid-template-columns:1fr 1fr;gap:23px;font-size:11px}.article-meta dt{margin-top:0;font-size:8px}.article-body{font-size:14px}.article-body h2{font-size:25px}.article-source .text-link{font-size:9px;gap:20px}.article-next{flex-direction:column;gap:20px;margin-top:40px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
-/* The opening composition is a moving collage of printed paper fragments. */
-.hero-collage{overflow:hidden;padding-top:28px}
-.hero-topline{display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative;z-index:7}
-.collage-toggle{display:inline-flex;align-items:center;gap:18px;border:1px solid #b3a9c1;padding:8px 12px;background:transparent;color:var(--paper);font:400 9px/1.4 var(--mono);text-transform:uppercase;cursor:pointer}
+/* A shared stacking scene lets the cut-paper letters weave through the drawings. */
+body:after{opacity:.055}
+.section h2,.contact-section h2,.article-head h1{mask-image:none;text-shadow:none}
+.portrait:after{opacity:.15}
+#about{padding-bottom:56px}
+#people{padding-top:28px;border-top:1px solid var(--line)}
+.hero-collage{--scene-ink:#281c3d;--scene-paper:#f3eedf;background:var(--scene-ink);color:var(--scene-paper);overflow:hidden;padding-top:28px}
+.hero-collage:before{opacity:.012}
+.hero-topline{display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative;z-index:30}
+.collage-toggle{display:inline-flex;align-items:center;gap:18px;border:1px solid #9d8ab8;padding:8px 12px;background:transparent;color:var(--scene-paper);font:400 9px/1.4 var(--mono);text-transform:uppercase;cursor:pointer}
 .collage-toggle span{font-size:15px;line-height:1}
-.collage-toggle:hover{background:rgba(232,226,223,.1)}
+.collage-toggle:hover{background:rgba(243,238,223,.1)}
 .collage-toggle[hidden]{display:none}
-.collage-stage{position:relative;isolation:isolate;min-height:620px;display:flex;align-items:center}
-.hero-collage .hero-copy{width:min(78%,960px);padding:67px 0 78px;position:relative;z-index:6}
-.hero-collage h1{width:max-content;max-width:100%;font:900 clamp(150px,18.8vw,275px)/.82 var(--display);letter-spacing:-.085em;margin:0 0 34px -10px;padding:20px 26px 28px 13px;color:var(--ink);background:var(--paper);transform:rotate(-1.1deg);box-shadow:6px 6px 0 var(--clay);clip-path:polygon(.3% .8%,26% 0,51% .5%,77% 0,99.7% .7%,100% 98.3%,73% 100%,48% 99.2%,21% 100%,0 98.6%);text-shadow:2px 1px 0 var(--clay)}
-.hero-collage .hero-description{display:inline-block;max-width:640px;padding:9px 16px 11px 0;font-size:clamp(20px,2.25vw,30px);line-height:1.2;letter-spacing:-.025em;color:var(--paper);background:var(--violet)}
+.collage-stage{position:relative;isolation:isolate;min-height:665px}
+.hero-collage h1.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;transform:none;mask-image:none;background:none;box-shadow:none;font-size:1px;line-height:1}
+.collage-scene{position:absolute;inset:0 0 auto;height:445px;isolation:isolate;pointer-events:none}
+.hero-collage .hero-copy{position:relative;z-index:20;width:100%;padding:465px 0 52px}
+.hero-collage .hero-description{display:inline-block;max-width:700px;padding:8px 20px 10px 0;font-size:clamp(20px,2.25vw,30px);line-height:1.2;letter-spacing:-.025em;color:var(--scene-paper);background:var(--scene-ink)}
 .hero-collage .hero-description strong{font-weight:700}
-.hero-collage .hero-copy .text-link{display:flex;width:fit-content;margin-top:22px;padding:5px 12px 10px 0;background:var(--violet);font-size:10px}
-.hero-collage .hero-foot{position:relative;z-index:7;align-items:center}
-.collage-art{position:absolute;right:-12px;top:18px;width:520px;height:555px;pointer-events:none;z-index:1}
-.collage-piece{position:absolute;background:var(--paper);transform-origin:50% 50%;transform:rotate(var(--angle));clip-path:polygon(.7% 0,45% .4%,99.3% 0,100% 49%,99.4% 99.5%,54% 100%,0 99.3%,.5% 54%);animation:collage-recompose 18s cubic-bezier(.65,0,.35,1) infinite;animation-delay:var(--phase);will-change:transform}
-.collage-piece svg{width:100%;height:100%;mask-image:url('assets/riso-stencil.svg');mask-size:190px 190px}
-.collage-piece:after{content:'';position:absolute;inset:0;background-image:url('assets/paper-fibres.svg');background-size:190px 190px;opacity:.35;mix-blend-mode:multiply;pointer-events:none}
-.collage-piece--lines{left:39%;top:-3%;width:25%;height:92%;z-index:1;--angle:13deg;--turn:5deg;--dx:-24px;--dy:20px;--phase:-4s}
-.collage-piece--arc{left:1%;top:34%;width:62%;height:61%;z-index:2;--angle:-13deg;--turn:-5deg;--dx:-26px;--dy:-17px;--phase:-9s}
-.collage-piece--corner{left:8%;top:5%;width:35%;height:31%;z-index:3;--angle:-8deg;--turn:-17deg;--dx:20px;--dy:28px;--phase:-13s}
-.collage-piece--disc{right:-1%;top:4%;width:56%;height:52%;z-index:4;--angle:11deg;--turn:3deg;--dx:-29px;--dy:27px;--phase:-1s}
-.collage-piece--diagonal{right:-2%;bottom:-1%;width:62%;height:49%;z-index:5;--angle:-7deg;--turn:2deg;--dx:18px;--dy:-26px;--phase:-6s}
-.hero-collage[data-motion="paused"] .collage-piece{animation-play-state:paused}
+.hero-collage .hero-copy .text-link{display:flex;width:fit-content;margin-top:21px;padding:5px 12px 10px 0;background:var(--scene-ink);font-size:10px}
+.hero-collage .hero-foot{position:relative;z-index:30;align-items:center;border-color:#85709d}
+.collage-piece{position:absolute;transform-origin:50% 50%;background:var(--scene-paper);transform:rotate(var(--angle));clip-path:polygon(.7% 0,45% .4%,99.3% 0,100% 49%,99.4% 99.5%,54% 100%,0 99.3%,.5% 54%);animation:drawing-shuffle 17s cubic-bezier(.6,0,.3,1) infinite;animation-delay:var(--phase);will-change:transform}
+.collage-piece svg{display:block;width:100%;height:100%;mask-image:none}
+.collage-piece:after{content:'';position:absolute;inset:0;background-image:url('assets/paper-fibres.svg');background-size:190px 190px;opacity:.065;mix-blend-mode:multiply;pointer-events:none}
+.collage-piece--lines{left:25%;top:4%;width:12%;height:91%;z-index:4;--angle:20deg;--turn:-5deg;--dx:24%;--dy:-8%;--phase:-3s}
+.collage-piece--arc{left:3%;top:12%;width:27%;height:76%;z-index:6;--angle:-14deg;--turn:14deg;--dx:10%;--dy:11%;--phase:-8s}
+.collage-piece--corner{left:45%;top:0;width:20%;height:53%;z-index:5;--angle:11deg;--turn:-18deg;--dx:-15%;--dy:30%;--phase:-11s}
+.collage-piece--disc{right:11%;top:2%;width:25%;height:74%;z-index:8;--angle:15deg;--turn:-12deg;--dx:16%;--dy:15%;--phase:-1s}
+.collage-piece--diagonal{right:-1%;bottom:0;width:30%;height:66%;z-index:9;--angle:-10deg;--turn:15deg;--dx:-21%;--dy:-15%;--phase:-6s}
+.cut-letter{position:absolute;display:block;top:26%;font:900 clamp(170px,22.5vw,320px)/.82 var(--display);letter-spacing:-.09em;color:var(--cut);transform-origin:50% 58%;transform:rotate(var(--rest));z-index:12;text-shadow:1px 1px 0 var(--edge),2px 3px 0 var(--edge);filter:drop-shadow(4px 5px 0 rgba(20,11,34,.24));animation:letter-shuffle 16s cubic-bezier(.6,0,.25,1) infinite both,letter-depth 16s step-end infinite both;animation-delay:var(--delay),var(--delay);will-change:transform}
+.cut-letter--1{left:0;top:23%;--cut:#beea55;--edge:#82a82b;--rest:-9deg;--r1:24deg;--r2:-18deg;--x1:48%;--y1:-35%;--x2:8%;--y2:16%;--delay:0s}
+.cut-letter--2{left:19%;top:31%;--cut:#a986ff;--edge:#734ab3;--rest:7deg;--r1:-26deg;--r2:18deg;--x1:-30%;--y1:32%;--x2:40%;--y2:-34%;--delay:.7s}
+.cut-letter--3{left:38%;top:22%;--cut:#f47a40;--edge:#ad431b;--rest:-5deg;--r1:62deg;--r2:-22deg;--x1:24%;--y1:28%;--x2:-28%;--y2:-30%;--delay:1.4s}
+.cut-letter--4{left:58%;top:29%;--cut:#f3eedf;--edge:#b4a995;--rest:10deg;--r1:-30deg;--r2:26deg;--x1:-27%;--y1:-35%;--x2:32%;--y2:20%;--delay:2.1s}
+.cut-letter--5{left:77%;top:21%;--cut:#2cc76a;--edge:#117d3c;--rest:-8deg;--r1:27deg;--r2:-33deg;--x1:-38%;--y1:30%;--x2:10%;--y2:-28%;--delay:2.8s}
+.hero-collage[data-motion="paused"] :is(.collage-piece,.cut-letter){animation-play-state:paused}
 .contact-section h2{margin-top:0}
-@keyframes collage-recompose{
-  0%,10%,84%,100%{transform:translate3d(0,0,0) rotate(var(--angle))}
-  37%,55%{transform:translate3d(var(--dx),var(--dy),0) rotate(var(--turn))}
+@keyframes letter-shuffle{
+  0%,12%,100%{transform:translate3d(0,0,0) rotate(var(--rest)) scale(1)}
+  28%{transform:translate3d(var(--x1),var(--y1),0) rotate(var(--r1)) scale(.89)}
+  49%,57%{transform:translate3d(var(--x2),var(--y2),0) rotate(var(--r2)) scale(1.08)}
+  78%{transform:translate3d(0,14%,0) rotate(var(--rest)) scale(.97)}
 }
-@media(min-width:1550px){.hero-collage .collage-stage{min-height:660px}.collage-art{top:30px;width:550px;height:585px}}
-@media(max-width:1150px){.hero-collage .collage-stage{min-height:565px}.hero-collage .hero-copy{width:79%;padding-block:70px}.hero-collage h1{font-size:clamp(130px,18.2vw,205px)}.hero-collage .hero-description{font-size:24px;max-width:540px}.collage-art{top:24px;right:-12px;width:440px;height:495px}}
-@media(max-width:850px) and (min-width:701px){.hero-collage .collage-stage{min-height:520px}.hero-collage .hero-copy{width:85%;padding-block:64px}.hero-collage h1{font-size:18.7vw}.hero-collage .hero-description{font-size:22px;max-width:485px}.collage-art{top:28px;right:-22px;width:370px;height:445px}.hero-topline .eyebrow{font-size:9px}}
+@keyframes letter-depth{0%,12%{z-index:12}18%,38%{z-index:3}40%,69%{z-index:15}74%,86%{z-index:5}90%,100%{z-index:12}}
+@keyframes drawing-shuffle{0%,12%,100%{transform:translate3d(0,0,0) rotate(var(--angle))}38%,62%{transform:translate3d(var(--dx),var(--dy),0) rotate(var(--turn))}}
+@media(min-width:1550px){.collage-scene{height:470px}.hero-collage .hero-copy{padding-top:485px}.collage-stage{min-height:690px}}
+@media(max-width:1150px){.collage-scene{height:395px}.hero-collage .hero-copy{padding-top:425px}.collage-stage{min-height:605px}.cut-letter{font-size:23vw}.hero-collage .hero-description{font-size:25px}}
+@media(max-width:850px) and (min-width:701px){.collage-scene{height:350px}.hero-collage .hero-copy{padding-top:380px}.collage-stage{min-height:555px}.cut-letter{font-size:22.8vw}.hero-collage .hero-description{font-size:22px}.hero-topline .eyebrow{font-size:9px}}
 @media(max-width:700px){
   .hero-collage{padding-top:21px}
   .hero-topline{gap:12px}
   .hero-topline .eyebrow{font-size:7px;letter-spacing:.025em;gap:7px}
   .collage-toggle{font-size:7px;padding:7px 8px;gap:9px;flex-shrink:0}
   .collage-toggle span{font-size:12px}
-  .hero-collage .collage-stage{display:flex;flex-direction:column;align-items:stretch;min-height:0}
-  .hero-collage .hero-copy{width:100%;padding:43px 0 12px}
-  .hero-collage h1{font-size:25.3vw;letter-spacing:-.085em;line-height:.86;margin:0 0 21px -5px;padding:11px 13px 15px 6px;text-shadow:1px .6px 0 var(--clay)}
+  .collage-stage{min-height:0}
+  .collage-scene{height:305px;top:15px}
+  .cut-letter{font-size:29vw;filter:drop-shadow(2px 3px 0 rgba(20,11,34,.2));text-shadow:.7px 1px 0 var(--edge)}
+  .collage-piece--lines{left:27%;width:15%;height:95%}
+  .collage-piece--arc{left:-9%;top:10%;width:44%;height:76%}
+  .collage-piece--corner{left:37%;width:29%;height:42%}
+  .collage-piece--disc{right:1%;top:3%;width:44%;height:66%}
+  .collage-piece--diagonal{right:-11%;width:50%;height:55%}
+  .hero-collage .hero-copy{width:100%;padding:335px 0 35px}
   .hero-collage .hero-description{font-size:clamp(17px,4.8vw,26px);line-height:1.25;max-width:100%;padding:8px 10px 9px 0}
-  .hero-collage .hero-copy .text-link{font-size:9px;margin-top:17px;padding-bottom:9px;gap:21px}
-  .collage-art{position:relative;order:1;align-self:flex-end;top:auto;right:auto;width:min(100%,440px);height:385px;margin:-40px -4px 32px 0}
+  .hero-collage .hero-copy .text-link{font-size:9px;margin-top:16px;padding-bottom:9px;gap:21px}
   .hero-collage .hero-foot{font-size:7px;gap:20px}
   .hero-collage .hero-foot>span{max-width:none}
   .hero-scroll{display:none}
+  #about{padding-bottom:38px}
+  #people{padding-top:25px}
 }
-@media(max-width:360px){.hero-topline .eyebrow{max-width:130px}.collage-art{height:330px;margin-top:-15px}.hero-collage .hero-copy{padding-top:35px}}
-@media(prefers-reduced-motion:reduce){.collage-piece{animation:none!important;will-change:auto}.collage-toggle{display:none}}
+@media(max-width:360px){.hero-topline .eyebrow{max-width:130px}.collage-scene{height:270px}.hero-collage .hero-copy{padding-top:300px}}
+@media(prefers-reduced-motion:reduce){.collage-piece,.cut-letter{animation:none!important;will-change:auto}.collage-toggle{display:none}}
