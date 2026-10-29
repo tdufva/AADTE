@@ -54,3 +54,7 @@ Portrait sources:
 ## Stronger risograph finish
 
 A second print pass adds static paper-fibre and ink-density SVG textures, porous headline stencils, coarser rotated halftone screens, roughened illustration edges and small ink-registration offsets. Body copy is untreated. Portrait files remain unmodified; the print finish is applied in CSS. No new pictorial motifs or content were added.
+
+## Collage header
+
+The opening section presents AADTE and its full name over a layered collage of abstract printed-paper fragments. Five paper layers slowly change position and rotation using CSS transforms; the typography stays still. The animation has a keyboard-accessible pause/play control and becomes a static composition when the visitor prefers reduced motion. Section headings identify the working group, AADTE gatherings and contact information directly.
